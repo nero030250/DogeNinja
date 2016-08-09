@@ -1,0 +1,94 @@
+{
+  "KeyRound": [
+    0,
+    20,
+    50,
+    80,
+    110,
+    140,
+    170,
+    200,
+    230,
+    260,
+    290
+  ],
+  "ChessmanNode": [
+    {
+      "Name": "普通怪物",
+      "Type": 1,
+      "Score": 5,
+      "FirstWeight": [
+      	10
+      ],
+      "SecondWeight": [
+      	1
+      ]
+    },
+    {
+      "Name": "炸弹",
+      "Type": 2,
+      "Score": 5,
+      "FirstWeight": [
+      	0
+      ],
+      "SecondWeight": [
+      	0
+      ]
+    },
+    {
+      "Name": "炸弹怪",
+      "Type": 3,
+      "Score": 10,
+      "FirstWeight": [
+      	0
+      ],
+      "SecondWeight": [
+      	0
+      ]
+    },
+    {
+      "Name": "武器怪",
+      "Type": 4,
+      "Score": 10,
+      "FirstWeight": [
+      	0
+      ],
+      "SecondWeight": [
+      	0
+      ]
+    },
+    {
+      "Name": "盾牌怪",
+      "Type": 5,
+      "Score": 10,
+      "FirstWeight": [
+      	0
+      ],
+      "SecondWeight": [
+      	0
+      ]
+    },
+    {
+      "Name": "盾牌炸弹怪",
+      "Type": 6,
+      "Score": 15,
+      "FirstWeight": [
+      	0
+      ],
+      "SecondWeight": [
+      	0
+      ]
+    },
+    {
+      "Name": "盾牌武器怪",
+      "Type": 7,
+      "Score": 15,
+      "FirstWeight": [
+      	01
+      ],
+      "SecondWeight": [
+      	10
+      ]
+    }
+  ]
+}
