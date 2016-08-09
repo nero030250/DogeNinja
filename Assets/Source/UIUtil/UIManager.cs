@@ -12,7 +12,7 @@ public class UIManager : UISingleton <UIManager> {
 
 	protected override void Awake () {
 		base.Awake ();
-		Screen.SetResolution(720, 1280, false);
+		Screen.SetResolution(750, 1334, false);
 		nextDepth = InitDepth;
 	}
 
