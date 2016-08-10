@@ -19,6 +19,7 @@ public class HalfMoveMonsterController : MoveMonsterController {
 				.OnComplete (() => OnMoveCompleted ())));
 			seq.PlayForward ();
 			BoardPos = pos;
+			SetSpriteDepth ();
 		} else {
 			Sequence seq = new Sequence ();
 			seq.Append (HOTween.To (transform, MOVE_DURATION / 2, new TweenParms ()
@@ -27,7 +28,8 @@ public class HalfMoveMonsterController : MoveMonsterController {
 				OnHalfStep ();
 				OnNinjaComeIn (ninja);
 				if (status != EnumStatus.Dead)
-					BoardPos = pos;
+						BoardPos = pos;
+					SetSpriteDepth ();
 			})));
 			seq.Append (HOTween.To (transform, MOVE_DURATION / 2, new TweenParms ()
 				.Prop ("localPosition", BoardPanelController.Instance.TransFromBoardPos (pos))

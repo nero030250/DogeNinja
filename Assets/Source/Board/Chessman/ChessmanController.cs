@@ -38,6 +38,11 @@ public class ChessmanController : UICollectController {
 	public virtual void SetPosition (Vector2 pos) {
 		BoardPos = pos;
 		transform.localPosition = BoardPanelController.Instance.TransFromBoardPos (BoardPos);
+		SetSpriteDepth ();
+	}
+
+	protected void SetSpriteDepth () {
+		performSprite.depth = 12 - BoardPos.y;
 	}
 
 	public virtual Vector2 CalcNextPosition () {

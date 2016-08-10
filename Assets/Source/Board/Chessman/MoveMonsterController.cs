@@ -23,6 +23,7 @@ public class MoveMonsterController : EnemyController {
 		if (ninja.BoardPos != pos || MoveDirectionHelper.GetReverseDirection (ninja.Direction) != Direction) {
 			HOTween.To (transform, MOVE_DURATION, new TweenParms ().Prop ("localPosition", BoardPanelController.Instance.TransFromBoardPos (pos)).OnComplete (() => OnMoveCompleted ()));
 			BoardPos = pos;
+			SetSpriteDepth ();
 		} else {
 			Sequence seq = new Sequence ();
 			seq.Append (HOTween.To (transform, MOVE_DURATION / 2, new TweenParms ()
@@ -30,7 +31,8 @@ public class MoveMonsterController : EnemyController {
 				.OnComplete (() => {
 				OnNinjaComeIn (ninja);
 				if (status != EnumStatus.Dead)
-					BoardPos = pos;
+						BoardPos = pos;
+					SetSpriteDepth ();
 			})));
 			seq.Append (HOTween.To (transform, MOVE_DURATION / 2, new TweenParms ()
 				.Prop ("localPosition", BoardPanelController.Instance.TransFromBoardPos (pos))

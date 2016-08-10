@@ -41,6 +41,7 @@ public class DogeNinjaController : ChessmanController {
 		BoardPos = pos;
 		transform.localPosition = BoardPanelController.Instance.TransFromBoardPos (BoardPos);
 		widget.alpha = 0.5f;
+		SetSpriteDepth ();
 	}
 
 	public void SetMoveDirection (MoveDirection direction) {
@@ -82,6 +83,7 @@ public class DogeNinjaController : ChessmanController {
 			} else {
 				HOTween.To (transform, MOVE_DURATION, new TweenParms ().Prop ("localPosition", BoardPanelController.Instance.TransFromBoardPos (pos)).Ease (EaseType.EaseOutQuad).OnComplete (() => OnMoveCompleted ()));
 				BoardPos = pos;
+				SetSpriteDepth ();
 			}
 		}
 	}
