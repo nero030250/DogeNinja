@@ -49,22 +49,24 @@ public class DogeNinjaController : ChessmanController {
 		SetPerform ();
 	}
 
+	private void MoveStop () {
+		IsMoveable = false;
+		IsInvincible = false;
+		status = DogeNinjaStatus.None;
+		SetPerform ();
+		OnMoveCompleted ();
+	}
+
 	public bool isStepMove = false;
 	public override void Move () {
 		isStepMove = false;
 		if (Direction == MoveDirection.None) {
-			IsMoveable = false;
-			IsInvincible = false;
-			SetPerform ();
-			OnMoveCompleted ();
+			MoveStop ();
 			return;
 		}
 		Vector2 pos = CalcNextPosition ();
 		if (!BoardPanelController.Instance.IsInBoard (pos)) {
-			IsMoveable = false;
-			IsInvincible = false;
-			SetPerform ();
-			OnMoveCompleted ();
+			MoveStop ();
 		} else {
 			isStepMove = true;
 			EnemyController ctrl = BoardPanelController.Instance.GetEnemy (pos);
