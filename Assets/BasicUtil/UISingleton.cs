@@ -14,7 +14,8 @@ public class UISingleton<T> : UICollectController where T :Component {
 	}
 
 	protected virtual void OnDestroy () {
-		Instance = null;
+		if (Instance == this)
+			Instance = null;
 		DebugUtil.Log (string.Format ("Destroy Instance {0} In {1}", typeof(T), gameObject.name), gameObject);
 	}
 }
