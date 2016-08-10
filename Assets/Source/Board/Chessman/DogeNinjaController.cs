@@ -14,12 +14,12 @@ public class DogeNinjaController : ChessmanController {
 	public bool IsHide { get; private set; }
 	public bool IsInvincible { get; private set; }
 
-	private UISpriteAnimation animation;
+	private UISpriteAnimation spriteAnimation;
 
 	protected override void Awake () {
 		base.Awake ();
 		IsMoveable = true;
-		animation = performSprite.GetComponent <UISpriteAnimation> ();
+		spriteAnimation = performSprite.GetComponent <UISpriteAnimation> ();
 	}
 
 	public override void Clear () {
@@ -27,13 +27,12 @@ public class DogeNinjaController : ChessmanController {
 		IsMoveable = true;
 		Direction = MoveDirection.None;
 		status = DogeNinjaStatus.None;
-		SetPerform ();
-		Hide ();
+		PlayHideAnimation ();
 	}
 
 	public void Hide () {
-		IsHide = true;
 		widget.alpha = 0f;
+		IsHide = true;
 	}
 
 	public override void SetPosition (Vector2 pos) {
@@ -42,6 +41,7 @@ public class DogeNinjaController : ChessmanController {
 		transform.localPosition = BoardPanelController.Instance.TransFromBoardPos (BoardPos);
 		widget.alpha = 0.5f;
 		SetSpriteDepth ();
+		SetPerform ();
 	}
 
 	public void SetMoveDirection (MoveDirection direction) {
@@ -89,31 +89,33 @@ public class DogeNinjaController : ChessmanController {
 	}
 
 	protected override void SetPerform () {
+		spriteAnimation.framesPerSecond = 5;
+		spriteAnimation.loop = true;
 		if (Direction == MoveDirection.None || !IsMoveable) {
-			animation.enabled = false;
+			spriteAnimation.enabled = false;
 			performSprite.spriteName = "ninja_idle";
 			performSprite.flip = UIBasicSprite.Flip.Nothing;
 			performSprite.MakePixelPerfect ();
 		} else if (Direction == MoveDirection.Left) {
-			animation.enabled = true;
-			animation.namePrefix = "ninja_r_";
+			spriteAnimation.enabled = true;
+			spriteAnimation.namePrefix = "ninja_r_";
 			performSprite.flip = UIBasicSprite.Flip.Horizontally;
-			animation.Play ();
+			spriteAnimation.Play ();
 		} else if (Direction == MoveDirection.Right) {
-			animation.enabled = true;
-			animation.namePrefix = "ninja_r_";
+			spriteAnimation.enabled = true;
+			spriteAnimation.namePrefix = "ninja_r_";
 			performSprite.flip = UIBasicSprite.Flip.Nothing;
-			animation.Play ();
+			spriteAnimation.Play ();
 		} else if (Direction == MoveDirection.Back) {
-			animation.enabled = true;
-			animation.namePrefix = "ninja_b_";
+			spriteAnimation.enabled = true;
+			spriteAnimation.namePrefix = "ninja_b_";
 			performSprite.flip = UIBasicSprite.Flip.Nothing;
-			animation.Play ();
+			spriteAnimation.Play ();
 		} else if (Direction == MoveDirection.Forward) {
-			animation.enabled = true;
-			animation.namePrefix = "ninja_f_";
+			spriteAnimation.enabled = true;
+			spriteAnimation.namePrefix = "ninja_f_";
 			performSprite.flip = UIBasicSprite.Flip.Nothing;
-			animation.Play ();
+			spriteAnimation.Play ();
 		}
 	}
 
@@ -169,5 +171,14 @@ public class DogeNinjaController : ChessmanController {
 		if (enemy == null || enemy.IsMoveable || (enemy.Type != ChessmanType.Shield && enemy.Type != ChessmanType.Bomb_Shield && enemy.Type != ChessmanType.Weapon_Shield))
 			return BoardPos + movePos;
 		return BoardPos;
+	}
+
+	public void PlayHideAnimation () {
+		IsHide = true;
+		spriteAnimation.enabled = true;
+		spriteAnimation.loop = false;
+		spriteAnimation.framesPerSecond = 30;
+		spriteAnimation.namePrefix = "ninja_hide";
+		spriteAnimation.Play ();
 	}
 }
