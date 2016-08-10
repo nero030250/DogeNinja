@@ -5,6 +5,7 @@ public class MainPanelController : UISingleton <MainPanelController> {
 
 	private UILabel scoreLabel;
 	private UILabel roundLabel;
+	private UILabel bestLabel;
 
 	private UIButton restartBtn;
 
@@ -31,6 +32,7 @@ public class MainPanelController : UISingleton <MainPanelController> {
 		base.Awake ();
 		scoreLabel = GetLabel ("ScoreLabel");
 		roundLabel = GetLabel ("RoundLabel");
+		bestLabel = GetLabel ("BestLabel");
 		restartBtn = GetButton ("RestartBtn");
 
 		EventDelegate.Add (restartBtn.onClick, Init);
@@ -38,7 +40,16 @@ public class MainPanelController : UISingleton <MainPanelController> {
 		BoardAnchor = GetCtrl ("BoardAnchor");
 	}
 
+	void Start () {
+		RefreshBest ();
+	}
+
+	private void RefreshBest () {
+		bestLabel.text = string.Format ("最高:{0}", BoardManager.Instance.BestScore);
+	}
+
 	public void Init () {
+		RefreshBest ();
 		BoardPanelController.Init ();
 	}
 }

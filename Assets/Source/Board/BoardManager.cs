@@ -9,6 +9,14 @@ public class BoardManager : UISingleton <BoardManager> {
 	public List<int> KeyRoundList { get; private set; }
 	private Dictionary<ChessmanType, ChessmanConfig> configDic = new Dictionary<ChessmanType, ChessmanConfig> ();
 
+	public int BestScore {
+		get { return PlayerPrefs.GetInt ("BestScore"); }
+		set { 
+			if (value > BestScore)
+				PlayerPrefs.SetInt ("BestScore", value);
+		}
+	}
+
 	protected override void Awake () {
 		base.Awake ();
 	}
