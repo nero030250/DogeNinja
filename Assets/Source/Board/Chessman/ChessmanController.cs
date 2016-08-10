@@ -42,7 +42,7 @@ public class ChessmanController : UICollectController {
 	}
 
 	protected void SetSpriteDepth () {
-		performSprite.depth = 12 - BoardPos.y;
+		performSprite.depth = 12 - (int)BoardPos.y;
 	}
 
 	public virtual Vector2 CalcNextPosition () {
