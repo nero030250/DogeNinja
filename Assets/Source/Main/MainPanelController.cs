@@ -11,6 +11,8 @@ public class MainPanelController : UISingleton <MainPanelController> {
 
 	public GameObject BoardAnchor { get; private set; }
 
+	private GameObject scoreObj;
+
 	private int score;
 	public int Score { get { return score; }
 		set { Debug.LogWarning (value);
@@ -38,6 +40,7 @@ public class MainPanelController : UISingleton <MainPanelController> {
 		EventDelegate.Add (restartBtn.onClick, Init);
 
 		BoardAnchor = GetCtrl ("BoardAnchor");
+		scoreObj = GetCtrl ("ScorePrefab");
 	}
 
 	void Start () {
@@ -51,5 +54,11 @@ public class MainPanelController : UISingleton <MainPanelController> {
 	public void Init () {
 		RefreshBest ();
 		BoardPanelController.Init ();
+	}
+
+	public void AddScore (int score, int level) {
+		GameObject obj =NGUITools.AddChild (scoreObj.transform.parent.gameObject, scoreObj);
+		obj.GetComponent<ScoreController> ().Init (score, level);
+		Score += score;
 	}
 }
