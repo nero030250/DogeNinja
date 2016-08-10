@@ -220,9 +220,9 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 			}
 		}
 		roundMoveEnemy.Sort ((x, y) => {
-			if (x.BoardPos.x != y.BoardPos.x)
+			if (x.BoardPos.y != y.BoardPos.y)
 				return (int)(x.BoardPos.y - y.BoardPos.y);
-			return (int)(y.BoardPos.x - x.BoardPos.x);
+			return (int)(x.BoardPos.x - y.BoardPos.x);
 		});
 
 		for (int index = roundMoveEnemy.Count - 1; index >= 0; index--) {
