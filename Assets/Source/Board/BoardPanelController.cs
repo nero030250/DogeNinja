@@ -203,7 +203,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 				// 怪物带盾且下个位置被主角占用
 				if (!IsInBoard (nextPos)
 				    || occupiedPos.Contains (nextPos)
-				    || (nextPos == DogeNinja.CalcTrueNextPosition () && (enemy.Type == ChessmanType.Bomb_Shield || enemy.Type == ChessmanType.Weapon_Shield))) {
+				    || (nextPos == DogeNinja.CalcTrueNextPosition () && (enemy.Type == ChessmanType.Bomb_Shield))) {
 					enemy.IsMoveable = false;
 					occupiedPos.Add (enemy.BoardPos);
 					roundMoveEnemy.RemoveAt (index);

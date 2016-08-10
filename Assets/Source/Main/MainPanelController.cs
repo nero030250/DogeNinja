@@ -12,9 +12,9 @@ public class MainPanelController : UISingleton <MainPanelController> {
 
 	private int score;
 	public int Score { get { return score; }
-		set {
+		set { Debug.LogWarning (value);
 			score = value;
-			scoreLabel.text = score.ToString ();
+			scoreLabel.text = string.Format ("得分:{0}", score);
 		}
 	}
 
@@ -23,7 +23,7 @@ public class MainPanelController : UISingleton <MainPanelController> {
 		get { return round; }
 		set {
 			round = value;
-			roundLabel.text = round.ToString ();
+			roundLabel.text = string.Format ("回合:{0}", round);
 		}
 	}
 

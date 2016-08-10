@@ -29,8 +29,6 @@ public class EnemyController : ChessmanController {
 		return obj.GetComponent <EnemyController> ();
 	}
 
-	public bool Attack = false;		// 是否具有攻击力， 用来判断当Ninja挡路时是否可以冲过去
-
 	public ChessmanType LowerType = ChessmanType.Empty;
 
 	protected override void Awake () {
@@ -60,7 +58,6 @@ public class EnemyController : ChessmanController {
 
 	protected virtual void ToLow () {
 		KillSelf ();
-		BoardPanelController.Instance.AddScore (BoardManager.Instance.GetScore (Type, LowerType));
 		if (LowerType != ChessmanType.Empty) {
 			EnemyController ctrl = BoardPanelController.Instance.CreateEnemy (BoardPos, LowerType);
 			ctrl.Direction = Direction;
@@ -69,7 +66,10 @@ public class EnemyController : ChessmanController {
 
 	protected virtual void KillSelf () {
 		IsAlive = false;
-		BoardPanelController.Instance.AddScore (BoardManager.Instance.GetScore (Type));
+		if (status == EnumStatus.Dead)
+			BoardPanelController.Instance.AddScore (BoardManager.Instance.GetScore (Type));
+		if (status == EnumStatus.Low)
+			BoardPanelController.Instance.AddScore (BoardManager.Instance.GetScore (Type, LowerType));
 
 		if (BoardPanelController.Instance != null)
 			BoardPanelController.Instance.RemoveEnemy (this);

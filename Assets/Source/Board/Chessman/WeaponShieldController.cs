@@ -6,7 +6,6 @@ public class WeaponShieldController : MoveMonsterController {
 	protected override void Awake () {
 		Type = ChessmanType.Weapon_Shield;
 		LowerType = ChessmanType.Weapon;
-		Attack = true;
 		base.Awake ();
 	}
 
@@ -14,9 +13,11 @@ public class WeaponShieldController : MoveMonsterController {
 		if (ninja.IsInvincible)
 			SetStatus (EnumStatus.Dead);
 		else {
-			// 表示 ninja是从背后捅的刀子
-			if (ninja.Direction == direction && ninja.isStepMove)
+			// 不移动了, 失去攻击性
+			if (!IsMoveable) {
 				SetStatus (EnumStatus.Low);
+				ninja.SetStatus (DogeNinjaStatus.StopMove);
+			}
 			else 
 				ninja.SetStatus (DogeNinjaStatus.Dead);
 		}
