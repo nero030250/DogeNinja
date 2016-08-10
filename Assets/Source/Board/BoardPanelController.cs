@@ -258,7 +258,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 
 	private void RoundOver () {
 		if (IsOver) {
-			Debug.LogWarning ("Game Over !!!!!!");
+			ResultPanelController.Create (MainPanelController.Instance.Score);
 			return;
 		}
 
