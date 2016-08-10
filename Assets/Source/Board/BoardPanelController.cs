@@ -201,9 +201,17 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 				// 下个位置出界
 				// 下个位置已经被占用
 				// 怪物带盾且下个位置被主角占用
+				bool moveable = true;
 				if (!IsInBoard (nextPos)
 				    || occupiedPos.Contains (nextPos)
 				    || (nextPos == DogeNinja.CalcTrueNextPosition () && (enemy.Type == ChessmanType.Bomb_Shield))) {
+					moveable = false;
+				}
+				EnemyController other = GetEnemy (nextPos);
+				// 处理相邻的穿过BUG
+				if (other != null && other.CalcNextPosition () == enemy.BoardPos)
+					moveable = false;
+				if (!moveable) {
 					enemy.IsMoveable = false;
 					occupiedPos.Add (enemy.BoardPos);
 					roundMoveEnemy.RemoveAt (index);
@@ -213,7 +221,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 		}
 		roundMoveEnemy.Sort ((x, y) => {
 			if (x.BoardPos.x != y.BoardPos.x)
-				return (int)(y.BoardPos.y - x.BoardPos.y);
+				return (int)(x.BoardPos.y - y.BoardPos.y);
 			return (int)(y.BoardPos.x - x.BoardPos.x);
 		});
 

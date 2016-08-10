@@ -54,12 +54,16 @@ public class DogeNinjaController : ChessmanController {
 		isStepMove = false;
 		if (Direction == MoveDirection.None) {
 			IsMoveable = false;
+			IsInvincible = false;
+			SetPerform ();
 			OnMoveCompleted ();
 			return;
 		}
 		Vector2 pos = CalcNextPosition ();
 		if (!BoardPanelController.Instance.IsInBoard (pos)) {
 			IsMoveable = false;
+			IsInvincible = false;
+			SetPerform ();
 			OnMoveCompleted ();
 		} else {
 			isStepMove = true;

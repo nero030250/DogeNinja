@@ -22,4 +22,8 @@ public class WeaponShieldController : MoveMonsterController {
 				ninja.SetStatus (DogeNinjaStatus.Dead);
 		}
 	}
+
+	public override bool StopNinja (DogeNinjaController ninja) {
+		return !ninja.IsInvincible;
+	}
 }
