@@ -12,18 +12,19 @@ public enum DogeNinjaStatus {
 public class DogeNinjaController : ChessmanController {
 
 	public bool IsHide { get; private set; }
-	public bool IsMoveable { get { return Direction != MoveDirection.None && BoardPanelController.Instance.IsInBoard (CalcNextPosition ()); } }
 	public bool IsInvincible { get; private set; }
 
 	private UISpriteAnimation animation;
 
 	protected override void Awake () {
 		base.Awake ();
+		IsMoveable = true;
 		animation = performSprite.GetComponent <UISpriteAnimation> ();
 	}
 
 	public override void Clear () {
 		IsInvincible = false;
+		IsMoveable = true;
 		Direction = MoveDirection.None;
 		status = DogeNinjaStatus.None;
 		SetPerform ();
@@ -52,11 +53,13 @@ public class DogeNinjaController : ChessmanController {
 	public override void Move () {
 		isStepMove = false;
 		if (Direction == MoveDirection.None) {
+			IsMoveable = false;
 			OnMoveCompleted ();
 			return;
 		}
 		Vector2 pos = CalcNextPosition ();
 		if (!BoardPanelController.Instance.IsInBoard (pos)) {
+			IsMoveable = false;
 			OnMoveCompleted ();
 		} else {
 			isStepMove = true;
@@ -78,7 +81,7 @@ public class DogeNinjaController : ChessmanController {
 	}
 
 	protected override void SetPerform () {
-		if (Direction == MoveDirection.None) {
+		if (Direction == MoveDirection.None || !IsMoveable) {
 			animation.enabled = false;
 			performSprite.spriteName = "ninja_idle";
 			performSprite.flip = UIBasicSprite.Flip.Nothing;
@@ -115,6 +118,8 @@ public class DogeNinjaController : ChessmanController {
 			this.status = DogeNinjaStatus.Dead;
 		else 
 			this.status = status;
+		if (status != DogeNinjaStatus.Invincible)
+			IsMoveable = false;
 	}
 
 	// 由EnemyController.OnNinjaComeIn 修改状态
@@ -132,5 +137,29 @@ public class DogeNinjaController : ChessmanController {
 		} else if (status == DogeNinjaStatus.StopMove) {
 			Direction = MoveDirection.None;
 		}
+	}
+
+	public Vector2 CalcTrueNextPosition () {
+		Vector2 movePos = Vector2.zero;
+		switch (Direction) {
+		case MoveDirection.Left:
+			movePos = Vector2.left;
+			break;
+		case MoveDirection.Right:
+			movePos = Vector2.right;
+			break;
+		case MoveDirection.Forward:
+			movePos = Vector2.down;
+			break;
+		case MoveDirection.Back:
+			movePos = Vector2.up;
+			break;
+		}
+		if (!BoardPanelController.Instance.IsInBoard (BoardPos + movePos))
+			return BoardPos;
+		EnemyController enemy = BoardPanelController.Instance.GetEnemy (BoardPos + movePos);
+		if (enemy == null || enemy.IsMoveable || (enemy.Type != ChessmanType.Shield && enemy.Type != ChessmanType.Bomb_Shield && enemy.Type != ChessmanType.Weapon_Shield))
+			return BoardPos + movePos;
+		return BoardPos;
 	}
 }

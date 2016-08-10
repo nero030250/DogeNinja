@@ -184,10 +184,12 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 			RoundOver ();
 			return;
 		}
-		List<Vector2> unablePos = new List<Vector2> ();
+		// 被占用坐标
+		List<Vector2> occupiedPos = new List<Vector2> ();
+		// 该回合不可移动的所有怪物
 		foreach (EnemyController enemy in enemyList) {
 			if (!roundMoveEnemy.Contains (enemy) && enemy.IsAlive)
-				unablePos.Add (enemy.BoardPos);
+				occupiedPos.Add (enemy.BoardPos);
 		}
 		bool isBreak = false;
 		// 通过循环删除之前可动, 当前陷入不可动状态的棋子, 如果当前循环没有剔除新的棋子, 就表示剩下的棋子都是可动的, 开始下一步
@@ -196,14 +198,37 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 			for (int index = roundMoveEnemy.Count - 1; index >= 0; index--) {
 				EnemyController enemy = roundMoveEnemy [index];
 				Vector2 nextPos = enemy.CalcNextPosition ();
-				if (!IsInBoard (nextPos) || unablePos.Contains (nextPos) || (!enemy.Attack && nextPos == DogeNinja.BoardPos)) {
-					unablePos.Add (enemy.BoardPos);
+				// 下个位置出界
+				// 下个位置已经被占用
+				// 怪物带盾且下个位置被主角占用
+				if (!IsInBoard (nextPos)
+				    || occupiedPos.Contains (nextPos)
+				    || (nextPos == DogeNinja.CalcTrueNextPosition () && (enemy.Type == ChessmanType.Bomb_Shield || enemy.Type == ChessmanType.Weapon_Shield))) {
+					enemy.IsMoveable = false;
+					occupiedPos.Add (enemy.BoardPos);
 					roundMoveEnemy.RemoveAt (index);
 					isBreak = false;
 				}
 			}
 		}
-		if (roundMoveEnemy.Count != 0 || DogeNinja.IsMoveable) {
+		roundMoveEnemy.Sort ((x, y) => {
+			if (x.BoardPos.x != y.BoardPos.x)
+				return (int)(y.BoardPos.y - x.BoardPos.y);
+			return (int)(y.BoardPos.x - x.BoardPos.x);
+		});
+
+		for (int index = roundMoveEnemy.Count - 1; index >= 0; index--) {
+			EnemyController enemy = roundMoveEnemy [index];
+			Vector2 nextPos = enemy.CalcNextPosition ();
+			if (occupiedPos.Contains (nextPos)) {
+				occupiedPos.Add (enemy.BoardPos);
+				enemy.IsMoveable = false;
+				roundMoveEnemy.RemoveAt (index);
+			} else
+				occupiedPos.Add (nextPos);
+		}
+
+		if (roundMoveEnemy.Count > 0 || DogeNinja.IsMoveable) {
 			chessmanMoveCount = roundMoveEnemy.Count + 1;
 			foreach (EnemyController enemy in roundMoveEnemy)
 				enemy.Move ();

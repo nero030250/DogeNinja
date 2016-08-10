@@ -45,11 +45,6 @@ public class EnemyController : ChessmanController {
 	public override void RefreshStatus () {
 		if (BoardPos == BoardPanelController.Instance.DogeNinja.BoardPos)
 			OnNinjaComeIn (BoardPanelController.Instance.DogeNinja);
-		else {
-			EnemyController other = BoardPanelController.Instance.GetOtherEnemy (this);
-			if (other != null)
-				OnOtherComeIn (other);
-		}
 	}
 
 	public override void Billing () {
@@ -82,13 +77,6 @@ public class EnemyController : ChessmanController {
 	}
 
 	public virtual void OnNinjaComeIn (DogeNinjaController ninja) {}
-
-	protected virtual void OnOtherComeIn (EnemyController other) {
-		if (LowerType == ChessmanType.Empty || other.LowerType != ChessmanType.Empty)
-			SetStatus (EnumStatus.Dead);
-		else
-			SetStatus (EnumStatus.Low);
-	}
 
 	public virtual bool StopNinja (DogeNinjaController ninja) {
 		return false;

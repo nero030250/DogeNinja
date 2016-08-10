@@ -14,8 +14,4 @@ public class BombController : EnemyController {
 			ninja.SetStatus (DogeNinjaStatus.Dead);
 		}
 	}
-
-	protected override void OnOtherComeIn (EnemyController other) {
-		SetStatus (EnumStatus.Low);
-	}
 }

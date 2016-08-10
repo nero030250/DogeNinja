@@ -16,6 +16,8 @@ public class ChessmanController : UICollectController {
 		}
 	}
 
+	public bool IsMoveable;
+
 	public Vector2 BoardPos { get; protected set; }
 
 	public bool IsAlive { get; protected set; }
@@ -28,6 +30,7 @@ public class ChessmanController : UICollectController {
 		performSprite = GetSprite ("PerformSprite");
 		widget = GetComponent <UIWidget> ();
 		IsAlive = true;
+		IsMoveable = false;
 	}
 
 	public virtual void Clear () {}
@@ -37,7 +40,7 @@ public class ChessmanController : UICollectController {
 		transform.localPosition = BoardPanelController.Instance.TransFromBoardPos (BoardPos);
 	}
 
-	public Vector2 CalcNextPosition () {
+	public virtual Vector2 CalcNextPosition () {
 		Vector2 movePos = Vector2.zero;
 		switch (Direction) {
 		case MoveDirection.Left:

@@ -6,11 +6,13 @@ public class MoveMonsterController : EnemyController {
 	
 	protected override void Awake () {
 		base.Awake ();
+		IsMoveable = true;
 		Direction = (MoveDirection)Random.Range (1, 5);
 	}
 
 	public override void Clear () {
 		base.Clear ();
+		IsMoveable = true;
 		Direction = MoveDirectionHelper.GetReverseDirection (Direction);
 	}
 
