@@ -71,7 +71,7 @@ public class DogeNinjaController : ChessmanController {
 				seq.Append (HOTween.To (transform, MOVE_DURATION / 2, new TweenParms ().Prop ("localPosition", transform.localPosition)));
 				seq.PlayForward ();
 			} else {
-				HOTween.To (transform, MOVE_DURATION, new TweenParms ().Prop ("localPosition", BoardPanelController.Instance.TransFromBoardPos (pos)).OnComplete (() => OnMoveCompleted ()));
+				HOTween.To (transform, MOVE_DURATION, new TweenParms ().Prop ("localPosition", BoardPanelController.Instance.TransFromBoardPos (pos)).Ease (EaseType.EaseOutQuad).OnComplete (() => OnMoveCompleted ()));
 				BoardPos = pos;
 			}
 		}

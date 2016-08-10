@@ -4,7 +4,7 @@ using Holoville.HOTween;
 
 public class ChessmanController : UICollectController {
 
-	public static float MOVE_DURATION = 0.3f;
+	public static float MOVE_DURATION = 0.2f;
 
 	public ChessmanType Type { get; protected set; }
 	protected MoveDirection direction;
