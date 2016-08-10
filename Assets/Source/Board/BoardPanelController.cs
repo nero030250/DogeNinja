@@ -17,6 +17,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 
 	public DogeNinjaController DogeNinja { get; private set; }
 	private GameObject enemyItem;
+	private GameObject boomObj;
 
 	private List<EnemyController> enemyList = new List<EnemyController> ();
 
@@ -28,6 +29,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 		DogeNinja = GetChildComponent <DogeNinjaController> ("DogeNinja");
 		enemyItem = GetCtrl ("EnemyItem");
 		enemyItem.SetActive (false);
+		boomObj = GetCtrl ("BoomPrefab");
 
 		InputM.Instance.OnMouseDown += OnBirthPlaceSelect;
 		InputM.Instance.OnDirection += OnDirection;
@@ -158,6 +160,13 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 
 	public bool IsInBoard (Vector2 pos) {
 		return BOARD_LEFT <= pos.x && pos.x <= BOARD_RIGHT && BOARD_BOTTOM <= pos.y && pos.y <= BOARD_TOP;
+	}
+
+
+	public void PlayBoomEffect (Vector2 boardPos) {
+		GameObject obj =NGUITools.AddChild (gameObject, boomObj);
+		obj.transform.localPosition = TransFromBoardPos (boardPos);
+		obj.SetActive (true);
 	}
 
 	#region                                      回合逻辑

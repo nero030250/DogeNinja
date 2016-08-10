@@ -66,8 +66,10 @@ public class EnemyController : ChessmanController {
 
 	protected virtual void KillSelf () {
 		IsAlive = false;
-		if (status == EnumStatus.Dead)
+		if (status == EnumStatus.Dead) {
 			BoardPanelController.Instance.AddScore (BoardManager.Instance.GetScore (Type));
+			BoardPanelController.Instance.PlayBoomEffect (BoardPos);
+		}
 		if (status == EnumStatus.Low)
 			BoardPanelController.Instance.AddScore (BoardManager.Instance.GetScore (Type, LowerType));
 
