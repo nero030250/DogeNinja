@@ -52,10 +52,6 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 		}
 	}
 
-	public void AddEnemy (EnemyController enemy) {
-		enemyList.Add (enemy);
-	}
-
 	public void RemoveEnemy (EnemyController enemy) {
 		enemyList.Remove (enemy);
 		roundMoveEnemy.Remove (enemy);
@@ -160,6 +156,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 		obj.SetActive (true);
 		EnemyController ctrl = EnemyController.AddEnemyController (obj, type);
 		ctrl.SetPosition (boardPos);
+		enemyList.Add (ctrl);
 		return ctrl;
 	}
 

@@ -31,11 +31,6 @@ public class EnemyController : ChessmanController {
 
 	public ChessmanType LowerType = ChessmanType.Empty;
 
-	protected override void Awake () {
-		base.Awake ();
-		BoardPanelController.Instance.AddEnemy (this);
-	}
-
 	public override void Clear () {
 		status = EnumStatus.None;
 	}
