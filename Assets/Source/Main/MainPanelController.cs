@@ -59,7 +59,7 @@ public class MainPanelController : UISingleton <MainPanelController> {
 	public int AddScore (int score, int level) {
 		int result = score * level;
 		Score += result;
-		return score;
+		return result;
 	}
 
 	public void ShowScore (int scoreCount, int level) {
