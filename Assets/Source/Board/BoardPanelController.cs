@@ -110,8 +110,10 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 	}
 
 	private void RollEnemy () {
-		if (nextKeyRound == MainPanelController.Instance.Round)
+		if (nextKeyRound == MainPanelController.Instance.Round) {
 			RefreshWeight ();
+			nextKeyRound = BoardManager.Instance.NextKeyRound (nextKeyRound);
+		}
 		List<Vector2> freePos = new List<Vector2> ();
 		for (int x = -2; x <= 2; x++) {
 			for (int y = -2; y <= 2; y++)
