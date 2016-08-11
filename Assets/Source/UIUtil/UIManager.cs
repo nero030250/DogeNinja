@@ -12,7 +12,10 @@ public class UIManager : UISingleton <UIManager> {
 
 	protected override void Awake () {
 		base.Awake ();
+		#if UNITY_ANDROID
+		#else
 		Screen.SetResolution(750, 1334, false);
+		#endif
 		nextDepth = InitDepth;
 	}
 
