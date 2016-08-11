@@ -56,9 +56,14 @@ public class MainPanelController : UISingleton <MainPanelController> {
 		BoardPanelController.Init ();
 	}
 
-	public void AddScore (int score, int level) {
+	public int AddScore (int score, int level) {
+		int result = score * level;
+		Score += result;
+		return score;
+	}
+
+	public int ShowScore (int scoreCount, int level) {
 		GameObject obj =NGUITools.AddChild (scoreObj.transform.parent.gameObject, scoreObj);
 		obj.GetComponent<ScoreController> ().Init (score, level);
-		Score += score;
 	}
 }

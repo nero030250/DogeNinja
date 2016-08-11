@@ -174,11 +174,13 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 	#region                                      回合逻辑
 
 	private int scoreAddCount = 0;
+	private int scoreCount = 0;
 	// 当前回合可移动棋子, 每回合开始刷新, 每步之后都在减少
 	private List<EnemyController> roundMoveEnemy = new List<EnemyController> ();
 	private void RoundStart () {
 		MainPanelController.Instance.Round++;
 		scoreAddCount = 0;
+		scoreCount = 0;
 		roundMoveEnemy.Clear ();
 		roundMoveEnemy.AddRange (enemyList);
 		roundMoveEnemy.RemoveAll ((chessman) => chessman.Direction == MoveDirection.None);
@@ -274,6 +276,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 	}
 
 	private void RoundOver () {
+		MainPanelController.Instance.ShowScore (scoreCount, scoreAddCount);
 		if (IsOver) {
 			ResultPanelController.Create (MainPanelController.Instance.Score);
 			return;
