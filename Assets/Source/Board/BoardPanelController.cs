@@ -213,15 +213,21 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 				// 下个位置已经被占用
 				// 怪物带盾且下个位置被主角占用
 				bool moveable = true;
-				if (!IsInBoard (nextPos)
-				    || occupiedPos.Contains (nextPos)
-				    || (nextPos == DogeNinja.CalcTrueNextPosition () && (enemy.Type == ChessmanType.Bomb_Shield))) {
+				if (!IsInBoard (nextPos)) {
 					moveable = false;
+				} else if (occupiedPos.Contains (nextPos)) {
+					moveable = false;
+				} else if (enemy.Type != ChessmanType.Weapon && enemy.Type != ChessmanType.Weapon_Shield) {
+					if ((nextPos == DogeNinja.CalcTrueNextPosition ()) || (nextPos == DogeNinja.BoardPos && enemy.Direction == MoveDirectionHelper.GetReverseDirection (DogeNinja.Direction)))
+						moveable = false;
 				}
-				EnemyController other = GetEnemy (nextPos);
-				// 处理相邻的穿过BUG
-				if (other != null && other.CalcNextPosition () == enemy.BoardPos)
-					moveable = false;
+				if (moveable) {
+					EnemyController other = GetEnemy (nextPos);
+					// 处理相邻的穿过BUG
+					if (other != null && other.CalcNextPosition () == enemy.BoardPos)
+						moveable = false;
+				}
+
 				if (!moveable) {
 					enemy.IsMoveable = false;
 					occupiedPos.Add (enemy.BoardPos);
