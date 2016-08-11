@@ -37,7 +37,10 @@ public class MainPanelController : UISingleton <MainPanelController> {
 		bestLabel = GetLabel ("BestLabel");
 		restartBtn = GetButton ("RestartBtn");
 
-		EventDelegate.Add (restartBtn.onClick, Init);
+		EventDelegate.Add (restartBtn.onClick, () => {
+			PlayerPrefs.SetInt ("BestScore", 0);
+			Init ();
+		});
 
 		BoardAnchor = GetCtrl ("BoardAnchor");
 		scoreObj = GetCtrl ("ScorePrefab");
