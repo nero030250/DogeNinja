@@ -18,11 +18,11 @@ public class ScoreController : UICollectController {
 		scoreGrid.OnInitializeItem = OnInitializeScoreItem;
 		scoreStr = string.Format ("+{0}", score);
 		scoreGrid.Resize (scoreStr.Length);
-		if (level == 0)
+		if (level == 1)
 			levelSpr.gameObject.SetActive (false);
-		else if (level == 1)
-			levelSpr.spriteName = "good";
 		else if (level == 2)
+			levelSpr.spriteName = "good";
+		else if (level == 3)
 			levelSpr.spriteName = "great";
 		else
 			levelSpr.spriteName = "perfect";
