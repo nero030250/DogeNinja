@@ -67,6 +67,10 @@ public class EnemyController : ChessmanController {
 	protected virtual void KillSelf () {
 		IsAlive = false;
 		if (status == EnumStatus.Dead) {
+			if (Type == ChessmanType.Bomb)
+				SoundManager.Instance.Play ("Boom");
+			else
+				SoundManager.Instance.Play ("Kill");
 			BoardPanelController.Instance.AddScore (BoardManager.Instance.GetScore (Type));
 			BoardPanelController.Instance.PlayBoomEffect (BoardPos);
 		}
