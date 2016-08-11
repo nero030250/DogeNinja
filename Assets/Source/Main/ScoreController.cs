@@ -18,7 +18,9 @@ public class ScoreController : UICollectController {
 		scoreGrid.OnInitializeItem = OnInitializeScoreItem;
 		scoreStr = string.Format ("+{0}", score);
 		scoreGrid.Resize (scoreStr.Length);
-		if (level == 1)
+		if (level == 0)
+			levelSpr.gameObject.SetActive (false);
+		else if (level == 1)
 			levelSpr.spriteName = "good";
 		else if (level == 2)
 			levelSpr.spriteName = "great";
@@ -27,6 +29,7 @@ public class ScoreController : UICollectController {
 		gameObject.SetActive (true);
 		foreach (UISprite sprite in gameObject.GetComponentsInChildren<UISprite> ())
 			sprite.depth = 10 + level;
+		GetComponent <UITable> ().Reposition ();
 	}
 
 	private void OnInitializeScoreItem (GameObject obj, int index) {
