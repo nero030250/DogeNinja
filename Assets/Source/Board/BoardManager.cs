@@ -28,7 +28,7 @@ public class BoardManager : UISingleton <BoardManager> {
 	}
 
 	private void InitConfig () {
-		string content = FileUtility.ReadConfigFile (CONFIG_PATH);
+		string content = ResourcesManager.Instance.ReadConfigFile (CONFIG_PATH);
 		JsonValue json = new JsonValue (content);
 		KeyRoundList = json.GetIntList ("KeyRound");
 		List<ChessmanConfig> configList = json.GetList <ChessmanConfig> ("ChessmanNode");

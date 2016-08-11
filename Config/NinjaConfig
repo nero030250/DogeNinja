@@ -21,7 +21,7 @@
       	10
       ],
       "SecondWeight": [
-      	1
+      	01
       ]
     },
     {
@@ -84,10 +84,10 @@
       "Type": 7,
       "Score": 15,
       "FirstWeight": [
-      	01
+      	0
       ],
       "SecondWeight": [
-      	10
+      	0
       ]
     }
   ]

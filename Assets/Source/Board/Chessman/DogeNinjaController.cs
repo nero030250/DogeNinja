@@ -81,7 +81,7 @@ public class DogeNinjaController : ChessmanController {
 				seq.Append (HOTween.To (transform, MOVE_DURATION / 2, new TweenParms ().Prop ("localPosition", transform.localPosition)));
 				seq.PlayForward ();
 			} else {
-				HOTween.To (transform, MOVE_DURATION, new TweenParms ().Prop ("localPosition", BoardPanelController.Instance.TransFromBoardPos (pos)).Ease (EaseType.EaseOutQuad).OnComplete (() => OnMoveCompleted ()));
+				HOTween.To (transform, MOVE_DURATION, new TweenParms ().Prop ("localPosition", BoardPanelController.Instance.TransFromBoardPos (pos)).OnComplete (() => OnMoveCompleted ()));
 				BoardPos = pos;
 				SetSpriteDepth ();
 			}
@@ -89,8 +89,23 @@ public class DogeNinjaController : ChessmanController {
 	}
 
 	protected override void SetPerform () {
-		spriteAnimation.framesPerSecond = 5;
-		spriteAnimation.loop = true;
+		if (IsInvincible) {
+			if (Direction == MoveDirection.Left) {
+				performSprite.spriteName = "ninja_in_r";
+				performSprite.flip = UIBasicSprite.Flip.Horizontally;
+			} else if (Direction == MoveDirection.Right) {
+				performSprite.spriteName = "ninja_in_r";
+				performSprite.flip = UIBasicSprite.Flip.Nothing;
+			} else if (Direction == MoveDirection.Back) {
+				performSprite.spriteName = "ninja_in_b";
+				performSprite.flip = UIBasicSprite.Flip.Nothing;
+			} else if (Direction == MoveDirection.Forward) {
+				performSprite.spriteName = "ninja_in_f";
+				performSprite.flip = UIBasicSprite.Flip.Nothing;
+			}
+			return;
+		}
+
 		if (Direction == MoveDirection.None || !IsMoveable) {
 			spriteAnimation.enabled = false;
 			performSprite.spriteName = "ninja_idle";
@@ -144,6 +159,7 @@ public class DogeNinjaController : ChessmanController {
 			Hide ();
 		} else if (status == DogeNinjaStatus.Invincible) {
 			IsInvincible = true;
+			SetPerform ();
 		} else if (status == DogeNinjaStatus.StopMove) {
 			Direction = MoveDirection.None;
 		}

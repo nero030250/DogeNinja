@@ -109,7 +109,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 			secondWeightCount += weight;
 	}
 
-	private void RollEnemy () {
+	private bool RollEnemy () {
 		if (nextKeyRound == MainPanelController.Instance.Round) {
 			RefreshWeight ();
 			nextKeyRound = BoardManager.Instance.NextKeyRound (nextKeyRound);
@@ -123,15 +123,22 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 			if (enemy.IsAlive)
 				freePos.Remove (enemy.BoardPos);
 		}
-		if (freePos.Count <= 2) {
-			// 结束
-			return;
+
+		if (freePos.Count > 0) {
+			int posRound = Random.Range (0, freePos.Count);
+			CreateEnemy (freePos [posRound], GetRoundType (firstWeightCount, firstWeight));
+			freePos.RemoveAt (posRound);
 		}
-		int posRound = Random.Range (0, freePos.Count);
-		CreateEnemy (freePos [posRound], GetRoundType (firstWeightCount, firstWeight));
-		freePos.RemoveAt (posRound);
-		posRound = Random.Range (0, freePos.Count);
-		CreateEnemy (freePos [posRound], GetRoundType (secondWeightCount, secoudWeight));
+		if (freePos.Count > 0) {
+			int posRound = Random.Range (0, freePos.Count);
+			CreateEnemy (freePos [posRound], GetRoundType (secondWeightCount, secoudWeight));
+			freePos.RemoveAt (posRound);
+		}
+		if (freePos.Count == 0) {
+			IsOver = true;
+			return false;
+		}
+		return true;
 	}
 
 	private ChessmanType GetRoundType (int count, Dictionary <ChessmanType, int> weights) {
@@ -287,15 +294,12 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 			ResultPanelController.Create (MainPanelController.Instance.Score);
 			return;
 		}
-
+		isInRound = false;
 		foreach (EnemyController enemy in enemyList)
 			enemy.Clear ();
 		DogeNinja.Clear ();
-		isInRound = false;
-		if (!DogeNinja.IsAlive) {
-		} else {
-			RollEnemy ();
-		}
+		if (!RollEnemy ())
+			ResultPanelController.Create (MainPanelController.Instance.Score);
 	}
 
 	public EnemyController GetEnemy (Vector2 boardPos) {
