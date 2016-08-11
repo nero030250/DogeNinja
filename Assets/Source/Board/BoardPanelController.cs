@@ -310,7 +310,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 
 	public void AddScore (int score) {
 		scoreAddCount++;
-		MainPanelController.Instance.AddScore (score * scoreAddCount, scoreAddCount);
+		scoreCount += MainPanelController.Instance.AddScore (score * scoreAddCount, scoreAddCount);
 	}
 
 	#endregion

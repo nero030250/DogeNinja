@@ -13,8 +13,10 @@ public class WeaponController : MoveMonsterController {
 			SetStatus (EnumStatus.Dead);
 		else {
 			// 不移动了, 失去攻击性
-			if (!IsMoveable)
+			if (!IsMoveable) {
 				SetStatus (EnumStatus.Dead);
+				ninja.SetStatus (DogeNinjaStatus.Invincible);
+			}
 			else 
 				ninja.SetStatus (DogeNinjaStatus.Dead);
 		}
