@@ -259,6 +259,15 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 				enemy.IsMoveable = false;
 				roundMoveEnemy.RemoveAt (index);
 			} else {
+				if (StepTimes == 0) {
+					EnemyController other = GetEnemy (nextPos);
+					if (other.Type == ChessmanType.Bomber || other.Type == ChessmanType.Bomb_Shield) {
+						occupiedPos.Add (enemy.BoardPos);
+						enemy.IsMoveable = false;
+						roundMoveEnemy.RemoveAt (index);
+						continue;
+					}
+				}				
 				occupiedPos.Add (nextPos);
 				if (StepTimes == 0 && (enemy.Type == ChessmanType.Bomber || enemy.Type == ChessmanType.Bomb_Shield))
 					occupiedPos.Add (enemy.BoardPos);
