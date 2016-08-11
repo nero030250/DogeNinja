@@ -9,12 +9,6 @@ public class BombShieldController : HalfMoveMonsterController {
 		base.Awake ();
 	}
 
-	public override void Clear () {
-		base.Clear ();
-		stepTimes = 0;
-	}
-
-	private int stepTimes = 0;
 	private Vector2 lastPosition;
 
 	public override void Move () {
@@ -23,9 +17,8 @@ public class BombShieldController : HalfMoveMonsterController {
 	}
 
 	protected override void OnHalfStep () {
-		if (stepTimes == 0)
+		if (BoardPanelController.Instance.StepTimes == 0)
 			BoardPanelController.Instance.CreateEnemy (lastPosition, ChessmanType.Bomb);
-		stepTimes++;
 	}
 
 	public override void OnNinjaComeIn (DogeNinjaController ninja) {

@@ -23,6 +23,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 
 	public bool IsOver = false;
 	private bool isInRound = false;
+	public int StepTimes = 0;
 
 	protected override void Awake () {
 		base.Awake ();
@@ -188,6 +189,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 		MainPanelController.Instance.Round++;
 		scoreAddCount = 0;
 		scoreCount = 0;
+		StepTimes = 0;
 		roundMoveEnemy.Clear ();
 		roundMoveEnemy.AddRange (enemyList);
 		roundMoveEnemy.RemoveAll ((chessman) => chessman.Direction == MoveDirection.None);
@@ -256,8 +258,11 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 				occupiedPos.Add (enemy.BoardPos);
 				enemy.IsMoveable = false;
 				roundMoveEnemy.RemoveAt (index);
-			} else
+			} else {
 				occupiedPos.Add (nextPos);
+				if (StepTimes == 0 && (enemy.Type == ChessmanType.Bomber || enemy.Type == ChessmanType.Bomb_Shield))
+					occupiedPos.Add (enemy.BoardPos);
+			}
 		}
 
 		if (roundMoveEnemy.Count > 0 || DogeNinja.IsMoveable) {
@@ -276,6 +281,7 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 	}
 
 	private void StepOver () {
+		BoardPanelController.Instance.StepTimes ++;
 		List <EnemyController> stepEnemyList = new List<EnemyController> ();
 		stepEnemyList.AddRange (enemyList);
 		foreach (EnemyController enemy in stepEnemyList)
