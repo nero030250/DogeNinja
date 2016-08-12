@@ -10,19 +10,18 @@ public enum MoveDirection {
 }
 
 public static class MoveDirectionHelper {
-	public const float MIN_MOVE = 10f;
 	public static MoveDirection GetDirection (Vector3 startPos, Vector3 endPos) {
 		float xOffset = Mathf.Abs (endPos.x - startPos.x);
 		float yOffset = Mathf.Abs (endPos.y - startPos.y);
 		if (xOffset > yOffset) {
-			if (endPos.x - startPos.x > MIN_MOVE)
+			if (endPos.x - startPos.x > InputM.Instance.MIN_MOVE)
 				return MoveDirection.Right;
-			if (startPos.x - endPos.x > MIN_MOVE)
+			if (startPos.x - endPos.x > InputM.Instance.MIN_MOVE)
 				return MoveDirection.Left;
 		} else {
-			if (endPos.y - startPos.y > MIN_MOVE)
+			if (endPos.y - startPos.y > InputM.Instance.MIN_MOVE)
 				return MoveDirection.Back;
-			if (startPos.y - endPos.y > MIN_MOVE)
+			if (startPos.y - endPos.y > InputM.Instance.MIN_MOVE)
 				return MoveDirection.Forward;
 		}
 		return MoveDirection.None;
