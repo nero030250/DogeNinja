@@ -7,7 +7,7 @@ public class InputM : UISingleton<InputM> {
 	public SystemDelegate.PosDelegate OnMouseDown;
 
 	private Vector3 lastClickPos;
-	public float MIN_MOVE = 10f;
+	public float MIN_MOVE = 30f;
 
 	protected override void Awake () {
 		base.Awake ();
