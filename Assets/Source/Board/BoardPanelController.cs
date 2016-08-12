@@ -12,8 +12,8 @@ public class BoardPanelController : UISingleton <BoardPanelController> {
 		UIHelper.Create (MainPanelController.Instance.BoardAnchor, UI_PATH);
 	}
 
-	public int GridWidth = 141;
-	public int GridHeight = 138;
+	public int GridWidth = 138;
+	public int GridHeight = 143;
 
 	public DogeNinjaController DogeNinja { get; private set; }
 	private GameObject enemyItem;
